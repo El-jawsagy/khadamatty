@@ -9,6 +9,7 @@ import 'package:khadamatty/view/utilites/popular_widget.dart';
 import 'package:khadamatty/view/utilites/theme.dart';
 
 class DiscountScreen extends StatefulWidget {
+
   @override
   _DiscountScreenState createState() => _DiscountScreenState();
 }

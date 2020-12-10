@@ -22,6 +22,19 @@ class CommissionAPI {
     return null;
   }
 
+  Future<String> getCommissionValue(lang) async {
+    String url = ApiPaths.commissionValue(lang);
+    var response = await http.get(
+      url,
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      return data['data'][0]["title"];
+    }
+    return null;
+  }
+
   Future<String> sendBankTransfer(
     userName,
     amount,

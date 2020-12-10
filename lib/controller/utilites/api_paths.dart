@@ -41,14 +41,19 @@ class ApiPaths {
       mainDirection + "/notifications?user_id=$id";
 
   static String commission = mainDirection + "/commission";
+
+  static String commissionValue(lang) =>
+      mainDirection + "/discount_system?lang=$lang";
   static String allBanks = mainDirection + "/banks";
 
-
   static String aboutUs(lang) => mainDirection + "/about_us?lang=$lang";
+
   static String termsOfUse(lang) =>
       mainDirection + "/usage_agreement?lang=$lang";
+
   static String discount(lang) =>
       mainDirection + "/website_commission?lang=$lang";
+
   static String blackList(lang) =>
       mainDirection + "/blacklist_handling?lang=$lang";
   static String contactUs = mainDirection + "/contact_us";

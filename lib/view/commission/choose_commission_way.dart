@@ -10,6 +10,10 @@ import 'package:khadamatty/view/utilites/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseCommissionWayScreen extends StatefulWidget {
+  String title;
+
+  ChooseCommissionWayScreen(this.title);
+
   @override
   _ChooseCommissionWayScreenState createState() =>
       _ChooseCommissionWayScreenState();
@@ -37,6 +41,14 @@ class _ChooseCommissionWayScreenState extends State<ChooseCommissionWayScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(color: CustomColors.primary, fontSize: 22),
+                  textAlign: TextAlign.center,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
