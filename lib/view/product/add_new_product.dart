@@ -18,8 +18,6 @@ ValueNotifier<File> _imageThree = ValueNotifier(null);
 ValueNotifier<File> _imageFour = ValueNotifier(null);
 ValueNotifier<File> _imageFive = ValueNotifier(null);
 
-final picker = ImagePicker();
-
 class AddAnnouncementScreen extends StatefulWidget {
   Map data;
   String lang;
@@ -460,19 +458,19 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
         itemBuilder: (BuildContext context, int index) {
           switch (index) {
             case 0:
-              return ImageTaker(_imageOne);
+              return MultiImageTaker(_imageOne);
               break;
             case 1:
-              return ImageTaker(_imageTwo);
+              return MultiImageTaker(_imageTwo);
               break;
             case 2:
-              return ImageTaker(_imageThree);
+              return MultiImageTaker(_imageThree);
               break;
             case 3:
-              return ImageTaker(_imageFour);
+              return MultiImageTaker(_imageFour);
               break;
             case 4:
-              return ImageTaker(_imageFive);
+              return MultiImageTaker(_imageFive);
               break;
           }
           return Container();
@@ -702,7 +700,6 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => MainScreen(0)));
                             } else {
-
                               final snackBar = SnackBar(
                                 backgroundColor: CustomColors.ratingLightBG,
                                 content: Text(
@@ -792,7 +789,7 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
 }
 
 class ImageTaker extends StatefulWidget {
-  ValueNotifier<File> image;
+  final ValueNotifier<File> image;
 
   ImageTaker(this.image);
 
@@ -913,7 +910,141 @@ class _ImageTakerState extends State<ImageTaker> {
   }
 
   Future getImageGallery() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      widget.image.value = File(pickedFile.path);
+    } else {
+      widget.image.value = null;
+    }
+  }
+}
+
+class MultiImageTaker extends StatefulWidget {
+  final ValueNotifier<File> image;
+
+  MultiImageTaker(this.image);
+
+  @override
+  _MultiImageTakerState createState() => _MultiImageTakerState();
+}
+
+class _MultiImageTakerState extends State<MultiImageTaker> {
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: widget.image,
+      builder: (BuildContext context, File value, Widget child) {
+        return widget.image.value == null
+            ? InkWell(
+                onTap: getImageGallery,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      border: Border.all(width: 0.5, color: CustomColors.white),
+                    ),
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * .2,
+                          child: Center(
+                            child: ClipRect(
+                              child: Image.asset(
+                                'assets/images/car.jpg',
+                              ),
+                              // child: (widget.data["image"] == null ||
+                              //     widget.data["image"] == '')
+                              //     ? Image.asset(
+                              //   'assets/images/image_2.jpg',
+                              // )
+                              //     : Image(
+                              //   loadingBuilder: (context, image,
+                              //       ImageChunkEvent loadingProgress) {
+                              //     if (loadingProgress == null) {
+                              //       return image;
+                              //     }
+                              //     return Center(
+                              //       child:
+                              //       CircularProgressIndicator(),
+                              //     );
+                              //   },
+                              //   image: NetworkImage(
+                              //       widget.data["image"],
+                              //       scale: 1.0),
+                              //   fit: BoxFit.cover,
+                              // ),
+                            ),
+                          ),
+                        ),
+                        Opacity(
+                          opacity: 0.45,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * .2,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                  width: 0.5, color: CustomColors.white),
+                              gradient: LinearGradient(colors: [
+                                CustomColors.gray,
+                                CustomColors.gray
+                              ]),
+                            ),
+                          ),
+                        ),
+                        Container(
+                            height: MediaQuery.of(context).size.height * .2,
+                            child: Center(
+                                child: Icon(
+                              Icons.add,
+                              color: CustomColors.white,
+                              size: 36,
+                            ))),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : InkWell(
+                onTap: getImageGallery,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        border:
+                            Border.all(width: 0.5, color: CustomColors.white),
+                      ),
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * .2,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                  width: 0.5, color: CustomColors.white),
+                            ),
+                            child: Center(
+                              child: ClipRect(
+                                  child: Image.file(
+                                widget.image.value,
+                                fit: BoxFit.cover,
+                              )),
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+              );
+      },
+    );
+  }
+
+  Future getImageGallery() async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       widget.image.value = File(pickedFile.path);

@@ -266,6 +266,8 @@ class _ChooseCommissionWayScreenState extends State<ChooseCommissionWayScreen> {
                   ),
                   minWidth: MediaQuery.of(context).size.width,
                   onPressed: () async {
+                    state.value = true;
+
                     SharedPreferences pref =
                         await SharedPreferences.getInstance();
 
@@ -298,7 +300,7 @@ class _ChooseCommissionWayScreenState extends State<ChooseCommissionWayScreen> {
                       _chooseCommissionScaffoldKey.currentState
                           .showSnackBar(snackBar);
                     } else {
-                      state.value = true;
+                      state.value = false;
 
                       final snackBar = SnackBar(
                           duration: Duration(

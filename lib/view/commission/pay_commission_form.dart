@@ -696,7 +696,8 @@ class _TransformImageTakerState extends State<TransformImageTaker> {
                               shape: BoxShape.rectangle,
                               border: Border.all(
                                   width: 0.5, color: CustomColors.white),
-                              gradient: LinearGradient(colors: [
+                              gradient: LinearGradient(
+                                  colors : [
                                 CustomColors.gray,
                                 CustomColors.gray
                               ]),

@@ -267,15 +267,43 @@ class _ProfileState extends State<ProfileScreen> {
                                       ),
                                     ],
                                   ),
-                                  ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, pos) {
-                                      return getExpanded(
-                                          size, snapshot.data['listings'][pos]);
-                                    },
-                                    itemCount: snapshot.data['listings'].length,
-                                  ),
+                                  snapshot.data['listings'].length > 0
+                                      ? ListView.builder(
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, pos) {
+                                            return getExpanded(size,
+                                                snapshot.data['listings'][pos]);
+                                          },
+                                          itemCount:
+                                              snapshot.data['listings'].length,
+                                        )
+                                      : Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.15,
+                                            ),
+                                            Text(
+                                              AppLocale.of(context)
+                                                          .getTranslated(
+                                                              "lang") ==
+                                                      "En"
+                                                  ? "لا يوجد اعلانات مضافة فى الوقت الحالي"
+                                                  : "There are no ads added at the moment.",
+                                              style: TextStyle(
+                                                fontSize: 22,
+                                                color: CustomColors.dark,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                 ],
                               ),
                             );

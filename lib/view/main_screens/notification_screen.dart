@@ -80,8 +80,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           return Center(
                               child: Text(
                             AppLocale.of(context).getTranslated("lang") == 'En'
-                                ? "لم تختار أي عنصر حتى الآن"
-                                : "You haven't taken any item yet",
+                                ? "لا تتوجدوجد اشعارات فى الوقت الحالي"
+                                : "There are no notifications at this time.",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
@@ -111,23 +111,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   )
                                 : Center(
                                     child: Text(
-                                      AppLocale.of(context)
-                                                  .getTranslated("lang") ==
-                                              'En'
-                                          ? "لم تختار أي عنصر حتى الآن"
-                                          : "You haven't taken any item yet",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22,
-                                      ),
+                                    AppLocale.of(context)
+                                                .getTranslated("lang") ==
+                                            'En'
+                                        ? "لا توجد اشعارات فى الوقت الحالي"
+                                        : "There are no notifications at this time.",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
                                     ),
-                                  );
+                                  ));
                           }
                           return Center(
                               child: Text(
                             AppLocale.of(context).getTranslated("lang") == 'En'
-                                ? "لم تختار أي عنصر حتى الآن"
-                                : "You haven't taken any item yet",
+                                ? "لا توجد اشعارات فى الوقت الحالي"
+                                : "There are no notifications at this time.",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,

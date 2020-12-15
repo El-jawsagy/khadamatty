@@ -699,49 +699,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     TextEditingController massageController = TextEditingController();
     showDialog(
       context: context,
-      builder: (_) => new AlertDialog(
-        title: new Text(AppLocale.of(context).getTranslated("lang") == "En"
+      builder: (_) => AlertDialog(
+        title: Text(AppLocale.of(context).getTranslated("lang") == "En"
             ? "قم بالتعليق علي الاعلان"
             : "Comment on the ad"),
-        content: Container(
-          height: MediaQuery.of(context).size.height * 0.5,
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: TextFormField(
-                  controller: massageController,
-                  autofocus: false,
-                  onChanged: (value) {},
-                  maxLines: 10,
-                  cursorColor: Colors.black,
-                  textAlign: TextAlign.right,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    hintText:
-                        AppLocale.of(context).getTranslated("lang") == "En"
-                            ? "اكتب تعليقك"
-                            : "Write your comment",
-                    hintStyle: TextStyle(fontSize: 15),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        content: contentOfShowDialog(massageController),
         actions: <Widget>[
           Row(
             children: [
@@ -755,51 +717,132 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               FlatButton(
                 child: Text(AppLocale.of(context).getTranslated("send")),
-                onPressed: () {
-                  adsAPI
-                      .addComment(
-                    widget.singleAnnouncement["id"],
-                    widget.singleAnnouncement["user_id"],
-                    massageController.text,
-                  )
-                      .then((value) {
-                    if (value == "true") {
-                      Navigator.pop(context);
-                      final snackBar = SnackBar(
-                          backgroundColor: CustomColors.greenLightBG,
-                          content: Text(
-                            AppLocale.of(context).getTranslated("lang") == 'En'
-                                ? "تم اضافه التعليق ."
-                                : "Comment added.",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: CustomColors.greenLightFont),
-                          ));
+                onPressed: () async {
+                  SharedPreferences pref =
+                      await SharedPreferences.getInstance();
+                  if (pref.getString("token") == null ||
+                      pref.getString("token") == "null") {
+                    Navigator.pop(context);
+                    final snackBar = SnackBar(
+                      duration: Duration(
+                        seconds: 3,
+                      ),
+                      backgroundColor: CustomColors.ratingLightBG,
+                      content: Text(
+                        AppLocale.of(context).getTranslated("lang") == 'En'
+                            ? "يجب تسجيل الدخول اولا حتي يمكن المتابعة.."
+                            : "You must be logged in first to be able to continue..",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: CustomColors.ratingLightFont),
+                      ),
+                      action: SnackBarAction(
+                        label: AppLocale.of(context).getTranslated("log"),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                        },
+                        textColor: CustomColors.ratingLightFont,
+                      ),
+                    );
+                    _productScreenScaffoldkey.currentState
+                        .showSnackBar(snackBar);
+                  } else {
+                    adsAPI
+                        .addComment(
+                      widget.singleAnnouncement["id"],
+                      widget.singleAnnouncement["user_id"],
+                      massageController.text,
+                    )
+                        .then(
+                      (value) {
+                        if (value == "true") {
+                          Navigator.pop(context);
+                          final snackBar = SnackBar(
+                              backgroundColor: CustomColors.greenLightBG,
+                              content: Text(
+                                AppLocale.of(context).getTranslated("lang") ==
+                                        'En'
+                                    ? "تم اضافه التعليق ."
+                                    : "Comment added.",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColors.greenLightFont),
+                              ));
 
-                      _productScreenScaffoldkey.currentState
-                          .showSnackBar(snackBar);
-                    } else {
-                      Navigator.pop(context);
+                          _productScreenScaffoldkey.currentState
+                              .showSnackBar(snackBar);
+                        } else {
+                          Navigator.pop(context);
 
-                      final snackBar = SnackBar(
-                          backgroundColor: CustomColors.ratingLightBG,
-                          content: Text(
-                            AppLocale.of(context).getTranslated("lang") == 'En'
-                                ? "حدث خطأ من فضلك تاكد من الاتصال بالانترنت وحاول مرة اخري"
-                                : "An error occurred. Please check your internet connection and try again",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: CustomColors.ratingLightFont),
-                          ));
+                          final snackBar = SnackBar(
+                              backgroundColor: CustomColors.ratingLightBG,
+                              content: Text(
+                                AppLocale.of(context).getTranslated("lang") ==
+                                        'En'
+                                    ? "حدث خطأ من فضلك تاكد من الاتصال بالانترنت وحاول مرة اخري"
+                                    : "An error occurred. Please check your internet connection and try again",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColors.ratingLightFont),
+                              ));
 
-                      _productScreenScaffoldkey.currentState
-                          .showSnackBar(snackBar);
-                    }
-                  });
+                          _productScreenScaffoldkey.currentState
+                              .showSnackBar(snackBar);
+                        }
+                      },
+                    );
+                  }
                 },
               ),
             ],
           )
+        ],
+      ),
+    );
+  }
+
+  Widget contentOfShowDialog(massageController) {
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.5,
+      ),
+      height: MediaQuery.of(context).size.height * 0.5,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: TextFormField(
+              controller: massageController,
+              autofocus: false,
+              onChanged: (value) {},
+              maxLines: 10,
+              cursorColor: Colors.black,
+              textAlign: TextAlign.right,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                  ),
+                ),
+                hintText: AppLocale.of(context).getTranslated("lang") == "En"
+                    ? "اكتب تعليقك"
+                    : "Write your comment",
+                hintStyle: TextStyle(fontSize: 15),
+              ),
+            ),
+          ),
         ],
       ),
     );
