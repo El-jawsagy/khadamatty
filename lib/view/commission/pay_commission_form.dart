@@ -478,7 +478,6 @@ class _PayCommissionFormScreenState extends State<PayCommissionFormScreen> {
               : FlatButton(
                   height: MediaQuery.of(context).size.height * .06,
                   onPressed: () {
-
                     if (_formKey.currentState.validate()) {
                       if (_image.value != null) {
                         if (bank.value != "كل البنوك المتاحة" &&

@@ -30,7 +30,6 @@ class MarketAndCategoryApi {
     return null;
   }
 
-
   Future<List> getSingleMarketSubcategory(categoryId) async {
     String url = ApiPaths.storeSubCategory(
       categoryId,
@@ -107,6 +106,7 @@ class ProductBloc {
     this.products =
         await marketAndCategoryApi.getSingleMarketCategoryProducts(categoryId);
     _productsController.add(this.products);
+
   }
 
   void dispose() {

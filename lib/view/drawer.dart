@@ -2,6 +2,7 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:khadamatty/controller/commission_api.dart';
 import 'package:khadamatty/controller/lang/applocate.dart';
 import 'package:khadamatty/view/Auth/login_screen.dart';
 import 'package:khadamatty/view/about_us.dart';
@@ -60,12 +61,20 @@ Widget sameDrawer(BuildContext context) {
                               AppLocale.of(context)
                                   .getTranslated('drawer_commission'),
                               () {
-                                Navigator.pop(context);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ChooseCommissionWayScreen()));
+                                CommissionAPI commissionApi = CommissionAPI();
+                                commissionApi
+                                    .getCommissionValue( AppLocale.of(context).getTranslated("lang") == "En"
+                                    ? "ar"
+                                    : "en")
+                                    .then((value) {
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChooseCommissionWayScreen(
+                                                  value)));
+                                });
                               },
                             ),
                             drawRow(
@@ -132,7 +141,6 @@ Widget sameDrawer(BuildContext context) {
                                         builder: (context) => AboutUsScreen()));
                               },
                             ),
-
                             (!snapshot.hasData)
                                 ? drawRow(
                                     context,
