@@ -285,6 +285,8 @@ class _ChooseCommissionWayScreenState extends State<ChooseCommissionWayScreen> {
 
                     if (pref.getString("token") == null ||
                         pref.getString("token") == "null") {
+                      state.value = false;
+
                       final snackBar = SnackBar(
                         duration: Duration(
                           seconds: 3,

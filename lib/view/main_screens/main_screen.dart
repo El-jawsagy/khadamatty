@@ -3,6 +3,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:khadamatty/controller/ads_api.dart';
 import 'package:khadamatty/controller/lang/applocate.dart';
+import 'package:khadamatty/view/Auth/login_screen.dart';
 import 'package:khadamatty/view/Auth/register_screen.dart';
 import 'package:khadamatty/view/drawer.dart';
 import 'package:khadamatty/view/main_screens/profile/profile_screen.dart';
@@ -130,16 +131,31 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             String token = prefs.get("token");
             if (token == null) {
               final snackBar = SnackBar(
-                  backgroundColor: CustomColors.ratingLightBG,
-                  content: Text(
-                    AppLocale.of(context).getTranslated("lang") == 'En'
-                        ? "ناسف لم تقم بتسجيل الدخول بعد"
-                        : "Sorry, you are not logged in yet.",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: CustomColors.ratingLightFont),
-                  ));
-
+                duration: Duration(
+                  seconds: 3,
+                ),
+                backgroundColor: CustomColors.ratingLightBG,
+                content: Text(
+                  AppLocale.of(context).getTranslated("lang") == 'En'
+                      ? "يجب تسجيل الدخول اولا حتي يمكن المتابعة.."
+                      : "You must be logged in first to be able to continue..",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: CustomColors.ratingLightFont),
+                ),
+                action: SnackBarAction(
+                  label: AppLocale.of(context).getTranslated("log"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+                  },
+                  textColor: CustomColors.ratingLightFont,
+                ),
+              );
               mainPageScaffoldKey.currentState.showSnackBar(snackBar);
             } else {
               final snackBar = SnackBar(
