@@ -75,8 +75,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorColor: CustomColors.white,
               controller: tabController,
-              labelStyle:
-              TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               labelPadding: EdgeInsets.only(left: 16, right: 12),
               unselectedLabelStyle: TextStyle(fontSize: 14),
               tabs: subCategoryTabs(data),
@@ -85,15 +84,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 position = val;
                 currentIndex = data[position]["id"];
                 bloc.categoryIdSink.add(currentIndex);
-
               },
             ),
           ),
           StreamBuilder(
               stream: bloc.productStream,
-              builder:
-                  (BuildContext context, AsyncSnapshot<List> snapshot) {
-
+              builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
                     return emptyPage(context);
@@ -104,16 +100,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   case ConnectionState.active:
                   case ConnectionState.done:
                     if (snapshot.hasData) {
-
-
                       print(snapshot.data.length);
                       if (snapshot.data.length >= 1) {
                         return Container(
                           child: ListView.builder(
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return getExpanded(
-                                  size, snapshot.data[index]);
+                              return getExpanded(size, snapshot.data[index]);
                             },
                             itemCount: snapshot.data.length,
                           ),
@@ -128,10 +121,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 Container(
                                   child: Image.asset(
                                     "assets/images/empty.png",
-                                    width:
-                                    MediaQuery.of(context).size.width,
-                                    height:
-                                    MediaQuery.of(context).size.height *
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
                                         0.3,
                                   ),
                                 ),
