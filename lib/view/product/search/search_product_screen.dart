@@ -6,6 +6,8 @@ import 'package:khadamatty/view/utilites/popular_widget.dart';
 import 'package:khadamatty/view/utilites/theme.dart';
 
 class Search extends SearchDelegate {
+  ValueNotifier<bool> state = ValueNotifier(false);
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
@@ -30,66 +32,89 @@ class Search extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     AdsAPI adsAPI = AdsAPI();
-    return FutureBuilder(
-      future: adsAPI.searchListing(
-        query,
-      ),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return emptyPage(context);
-            break;
-          case ConnectionState.waiting:
-          case ConnectionState.active:
-            return loading(
-              context,
-            );
-            break;
-          case ConnectionState.done:
-            if (snapshot.hasData) {
-              print(snapshot.data.length);
-              return snapshot.data.length >= 1
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      itemBuilder: (context, pos) {
-                        return getExpanded(context, size, snapshot.data[pos]);
-                      },
-                      itemCount: snapshot.data.length,
-                    )
-                  : Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/empty.png",
-                                width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
+    return StatefulBuilder(
+      builder: (BuildContext context, void Function(void Function()) setState) {
+        return FutureBuilder(
+          future: adsAPI.searchListing(
+            query,
+          ),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                return emptyPage(context, () {
+                  setState(() {});
+                });
+                break;
+              case ConnectionState.waiting:
+              case ConnectionState.active:
+                return loading(
+                  context,
+                );
+                break;
+              case ConnectionState.done:
+                state.value = false;
+                if (snapshot.hasData) {
+                  return (snapshot.data.length >= 1)
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemBuilder: (context, pos) {
+                            return getExpanded(
+                                context, size, snapshot.data[pos]);
+                          },
+                          itemCount: snapshot.data.length,
+                        )
+                      : (snapshot.data.length == 0 || snapshot.data == null)
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: Image.asset(
+                                        "assets/images/empty.png",
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.25,
+                                      ),
+                                    ),
+                                    Text(
+                                      AppLocale.of(context)
+                                          .getTranslated("product_dis"),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Text(
-                              AppLocale.of(context)
-                                  .getTranslated("product_dis"),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-            } else
-              return emptyPage(context);
-            break;
-        }
-        return emptyPage(context);
+                            )
+                          : emptyPage(context, () {
+                              setState(() {});
+                            });
+                } else {
+                  if (!snapshot.hasData) {
+                    return emptyPage(context, () {
+                      setState(() {});
+                    });
+                  } else {
+                    return emptyPage(context, () {
+                      setState(() {});
+                    });
+                  }
+                }
+            }
+            return emptyPage(context, () {
+              setState(() {});
+            });
+          },
+        );
       },
     );
 
-    throw UnimplementedError();
   }
 
   Widget getExpanded(
@@ -97,7 +122,6 @@ class Search extends SearchDelegate {
     Size size,
     Map map,
   ) {
-    print(map);
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -297,25 +321,70 @@ class Search extends SearchDelegate {
   Widget loading(
     BuildContext context,
   ) {
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.6,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                AppLocale.of(context).getTranslated("wait"),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              CircularProgressIndicator(
-                backgroundColor: CustomColors.primary,
-              ),
-            ],
-          ),
-        ));
+    return ValueListenableBuilder(
+      valueListenable: state,
+      builder: (BuildContext context, value, Widget child) {
+        return state.value
+            ? Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        AppLocale.of(context).getTranslated("wait"),
+                        maxLines: 3,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      CircularProgressIndicator(
+                        backgroundColor: CustomColors.primary,
+                      ),
+                    ],
+                  ),
+                ))
+            : Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Text(
+                          AppLocale.of(context).getTranslated("lang") == "En"
+                              ? "للبحث عن ' ${query.toString()} ' برجاء الضغط علي زر البحث بالاسفل"
+                              : "To search for ${query.toString()} please press the search button below",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: FloatingActionButton(
+                          heroTag: "btn1",
+                          onPressed: () {
+                            state.value = true;
+                            showResults(context);
+                          },
+                          child: Icon(
+                            Icons.search,
+                            color: CustomColors.primary,
+                          ),
+                          backgroundColor: CustomColors.primaryHover,
+                        ),
+                      )
+                    ],
+                  ),
+                ));
+      },
+    );
   }
 }

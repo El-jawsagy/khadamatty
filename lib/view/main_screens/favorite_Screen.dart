@@ -40,59 +40,71 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               return FutureBuilder(
                   future: favoriteMethodAPI.getFavoriteItems(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                          return Center(
-                              child: Text(
-                            AppLocale.of(context).getTranslated("lang") == 'En'
-                                ? "لم تختار أي عنصر حتى الآن"
-                                : "You haven't taken any item yet",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                            ),
-                          ));
-                          break;
-                        case ConnectionState.waiting:
-                          print("i'm here waiting");
-                          return loading(context, 1);
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        return Center(
+                            child: Text(
+                          AppLocale.of(context).getTranslated("lang") == 'En'
+                              ? "لم تختار أي عنصر حتى الآن"
+                              : "You haven't taken any item yet",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ));
+                        break;
+                      case ConnectionState.waiting:
+                        return loading(context, 1);
 
-                          break;
-                        case ConnectionState.active:
-                        case ConnectionState.done:
-                          print("i'm here done");
+                        break;
+                      case ConnectionState.active:
+                      case ConnectionState.done:
 
-                          if (snapshot.hasData) {
-                            print(snapshot.data);
-
-                            return snapshot.data.length > 0
-                                ? ListView.builder(
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, pos) {
-                                      return getExpanded(
-                                          size, snapshot.data[pos]);
-                                    },
-                                    itemCount: snapshot.data.length,
-                                  )
-                                : Center(
-                                    child: Text(
-                                      AppLocale.of(context)
-                                                  .getTranslated("lang") ==
-                                              'En'
-                                          ? "لم تختار أي عنصر حتى الآن"
-                                          : "You haven't taken any item yet",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22,
-                                      ),
+                        if (snapshot.hasData) {
+                          return snapshot.data.length > 0
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, pos) {
+                                    return getExpanded(
+                                        size, snapshot.data[pos]);
+                                  },
+                                  itemCount: snapshot.data.length,
+                                )
+                              : Center(
+                                  child: Text(
+                                    AppLocale.of(context)
+                                                .getTranslated("lang") ==
+                                            'En'
+                                        ? "لم تختار أي عنصر حتى الآن"
+                                        : "You haven't taken any item yet",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
                                     ),
-                                  );
+                                  ),
+                                );
+                        }
+                        else {
+                          if (!snapshot.hasData) {
+                            return emptyPage(context, () {
+                              setState(() {});
+                            });
+                          } else {
+                            return Center(
+                                child: Text(
+                              AppLocale.of(context).getTranslated("lang") ==
+                                      'En'
+                                  ? "لم تختار أي عنصر حتى الآن"
+                                  : "You haven't taken any item yet",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  color: CustomColors.dark),
+                            ));
                           }
-                          return emptyPage(context);
-                          break;
-                      }
+                        }
                     }
+
                     return loading(context, 1);
                   });
             } else

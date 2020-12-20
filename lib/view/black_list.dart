@@ -59,7 +59,9 @@ class _BlackListScreenState extends State<BlackListScreen> {
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
-                        return emptyPage(context);
+                        return emptyPage(context, () {
+                          setState(() {});
+                        });
                         break;
                       case ConnectionState.waiting:
                       case ConnectionState.active:
@@ -67,7 +69,6 @@ class _BlackListScreenState extends State<BlackListScreen> {
                         break;
                       case ConnectionState.done:
                         if (snapshot.hasData) {
-                          print(snapshot.data);
                           return ListView.builder(
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
@@ -76,10 +77,14 @@ class _BlackListScreenState extends State<BlackListScreen> {
                             itemCount: snapshot.data.length,
                           );
                         } else
-                          return emptyPage(context);
+                          return emptyPage(context, () {
+                            setState(() {});
+                          });
                         break;
                     }
-                    return emptyPage(context);
+                    return emptyPage(context, () {
+                      setState(() {});
+                    });
                   }),
             ],
           ),
@@ -91,7 +96,6 @@ class _BlackListScreenState extends State<BlackListScreen> {
   Widget _drawFirstCardOfInfo(
       map,
       ) {
-    print(map["content"]);
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

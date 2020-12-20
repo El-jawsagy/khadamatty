@@ -9,14 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AdsAPI {
   Future<Map> getInfo() async {
-    print("i'm here get Items");
     SharedPreferences pref = await SharedPreferences.getInstance();
     String url = ApiPaths.getTagsAndCategory;
     Map<String, String> auth = {
       'Authorization': "Bearer " + pref.getString("token"),
     };
     var response = await http.get(url, headers: auth);
-    print(response.body);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -82,7 +80,6 @@ class AdsAPI {
       ));
     }
 
-    print("iam here");
 
     FormData formData = FormData.fromMap({
       'user_id': pref.get("UserId").toString(),
@@ -102,12 +99,9 @@ class AdsAPI {
       'Authorization': "Bearer " + pref.getString("token"),
     };
 
-    print(formData.fields);
-    print(formData.files);
     Response response =
         await Dio().post(url, data: formData, options: Options(headers: auth));
     var data = response.data;
-    print(data['data']);
     if (response.statusCode == 200) {
       return data['data'];
     }
@@ -137,7 +131,6 @@ class AdsAPI {
     for (var i in oldImages) {
       editedImages.add(i.split('/').last);
     }
-    print(editedImages);
     String url = ApiPaths.updataAnnouncement;
     String fileName;
     if (image != null) {
@@ -180,7 +173,6 @@ class AdsAPI {
       ));
     }
     FormData formData;
-    print("iam here");
     if (image != null) {
       formData = FormData.fromMap({
         'listing_id': id,
@@ -217,26 +209,20 @@ class AdsAPI {
       'Authorization': "Bearer " + pref.getString("token"),
     };
 
-    print(formData.fields);
-    print(formData.files);
     Response response =
         await Dio().post(url, data: formData, options: Options(headers: auth));
     var data = response.data;
-    print(data['data']);
     if (response.statusCode == 200) {
       return data['data'];
     }
   }
 
   Future<List> searchListing(query) async {
-    print("i'm here get Items");
-    SharedPreferences pref = await SharedPreferences.getInstance();
     String url = ApiPaths.searchAdds(query);
-    Map<String, String> auth = {
-      'Authorization': "Bearer " + pref.getString("token"),
-    };
-    var response = await http.get(url, headers: auth);
-    print(response.body);
+
+    var response = await http.get(
+      url,
+    );
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -246,7 +232,6 @@ class AdsAPI {
   }
 
   Future<String> removeListing(id) async {
-    print("i'm here get Items");
     SharedPreferences pref = await SharedPreferences.getInstance();
     String url = ApiPaths.removeListing;
 
@@ -258,7 +243,6 @@ class AdsAPI {
       'Authorization': "Bearer " + pref.getString("token"),
     };
     var response = await http.post(url, body: body, headers: auth);
-    print(response.body);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -268,7 +252,6 @@ class AdsAPI {
   }
 
   Future<String> addComment(listingId, listingUserId, massage) async {
-    print("i'm here get Items");
     SharedPreferences pref = await SharedPreferences.getInstance();
     String url = ApiPaths.addStoreComment;
     Map<String, String> auth = {
@@ -280,10 +263,8 @@ class AdsAPI {
       'listing_user': listingUserId.toString(),
       'comment': massage,
     };
-    print(body);
 
     var response = await http.post(url, body: body, headers: auth);
-    print(response.body);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);

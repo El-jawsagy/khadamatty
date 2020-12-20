@@ -52,7 +52,9 @@ class _AllBanksScreenState extends State<AllBanksScreen> {
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
-                      return emptyPage(context);
+                      return emptyPage(context, () {
+                        setState(() {});
+                      });
                       break;
                     case ConnectionState.waiting:
                     case ConnectionState.active:
@@ -60,7 +62,6 @@ class _AllBanksScreenState extends State<AllBanksScreen> {
                       break;
                     case ConnectionState.done:
                       if (snapshot.hasData) {
-                        print(snapshot.data);
                         return ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
@@ -70,10 +71,14 @@ class _AllBanksScreenState extends State<AllBanksScreen> {
                           itemCount: snapshot.data.length,
                         );
                       } else
-                        return emptyPage(context);
+                        return emptyPage(context, () {
+                          setState(() {});
+                        });
                       break;
                   }
-                  return emptyPage(context);
+                  return emptyPage(context, () {
+                    setState(() {});
+                  });
                 }),
           ],
         ),

@@ -37,9 +37,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       body: FutureBuilder(
           future: homePage.getSingleCategory(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+
             switch (snapshot.connectionState) {
               case ConnectionState.none:
-                return emptyPage(context);
+                return emptyPage(context, () {
+                  setState(() {});
+                });
                 break;
               case ConnectionState.waiting:
               case ConnectionState.active:
@@ -53,12 +56,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       length: list.length, vsync: this, initialIndex: position);
 
                   return _screen(list);
-                } else
-                  return emptyPage(context);
-
+                } else {
+                  return emptyPage(context, () {
+                    setState(() {});
+                  });
+                }
                 break;
             }
-            return emptyPage(context);
+            return emptyPage(context, () {
+              setState(() {});
+            });
           }),
     );
   }
@@ -92,7 +99,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
-                    return emptyPage(context);
+                    return emptyPage(context, () {
+                      setState(() {});
+                    });
                     break;
                   case ConnectionState.waiting:
                     return loading(context, .7);
@@ -100,7 +109,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   case ConnectionState.active:
                   case ConnectionState.done:
                     if (snapshot.hasData) {
-                      print(snapshot.data.length);
                       if (snapshot.data.length >= 1) {
                         return Container(
                           child: ListView.builder(
@@ -138,10 +146,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ));
                       }
                     } else
-                      return emptyPage(context);
+                      return emptyPage(context, () {
+                        setState(() {});
+                      });
                     break;
                 }
-                return emptyPage(context);
+                return loading(context, .7);
               }),
         ],
       ),
@@ -164,7 +174,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     Size size,
     Map map,
   ) {
-    print(map);
     return InkWell(
       onTap: () {
         Navigator.push(

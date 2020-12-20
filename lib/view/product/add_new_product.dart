@@ -264,20 +264,15 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                                   active: true,
                                   activeColor: CustomColors.primary,
                                   onPressed: (value) {
-                                    print(value);
                                     if (value.active) {
                                       tempTags.add(value.title);
                                     } else {
-                                      print(tempTags);
                                       tempTags.remove(value.title);
                                     }
-                                    print(tempTags);
-                                    print(index);
                                   },
                                   removeButton: ItemTagsRemoveButton(
                                     onRemoved: () {
                                       setState(() {
-                                        print(index);
                                         _adsNameEditingText.text =
                                             _adsNameEditingText.text;
                                         _shortDescriptionEditingText.text =
@@ -290,7 +285,6 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                                             _countryEditingText.text;
                                         pos = pos;
 
-                                        print(_tags.value[index]);
                                         _tags.value.removeAt(index);
                                       });
 
@@ -484,7 +478,6 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
   }
 
   Widget _drawChooseCountry() {
-    print(categories);
 
     return ValueListenableBuilder(
       valueListenable: category,
@@ -515,7 +508,6 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                 } else {
                   subCategory.value = "All SubCategories";
                 }
-                print(pos.value);
               },
               items: categories.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
@@ -557,7 +549,6 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
             }
           }
         }
-        print(subCategories);
         return ValueListenableBuilder(
           valueListenable: subCategory,
           builder: (BuildContext context, String v, Widget c) {

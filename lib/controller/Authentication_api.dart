@@ -17,7 +17,6 @@ class Authentication {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(response.body);
 
       switch (data['data']) {
         case "email wrong":
@@ -26,7 +25,6 @@ class Authentication {
           break;
 
         default:
-          print("this is value of login ${data['data']}");
           if (data['data']['token'].length > 50) {
             setEmail(email);
             setName(data['data']['name']);
@@ -66,12 +64,10 @@ class Authentication {
         'phone': phone,
       });
     }
-    print(formData);
     Response response = await Dio().post(
       url,
       data: formData,
     );
-    print(response.data);
 
     if (response.statusCode == 200) {
       var data = response.data;
@@ -83,7 +79,6 @@ class Authentication {
           break;
 
         default:
-          print("this is value of login ${data['data']}");
           if (data['data']['token'].length > 50) {
             setEmail(email);
             setName(data['data']['name']);
@@ -138,10 +133,8 @@ class Authentication {
         'phone': phone,
       });
     }
-    print(formData.fields);
     var response =
         await Dio().post(url, data: formData, options: Options(headers: auth));
-    print(response.data);
     if (response.statusCode == 200) {
       var data = response.data;
       switch (data['data']) {
@@ -176,7 +169,6 @@ class Authentication {
     };
 
     var response = await http.get(url, headers: auth);
-    print(response.body);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
@@ -187,36 +179,30 @@ class Authentication {
 
 setToken(String token) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  print("token is change");
   await preferences.setString("token", token);
 }
 
 setId(int id) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  print("name is change");
   await preferences.setInt("UserId", id);
 }
 
 setEmail(String email) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  print("email is change");
   await preferences.setString("email", email);
 }
 
 setName(String name) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  print("name is change");
   await preferences.setString("name", name);
 }
 
 setPhoto(String image) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  print("photo is change");
   await preferences.setString("photo", image);
 }
 
 setCountry(String country) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  print("photo is change");
   await preferences.setString("categoryId", country);
 }

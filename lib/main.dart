@@ -83,7 +83,6 @@ class _MyAppState extends State<MyApp> {
         ],
         localeResolutionCallback: (currentLocale, supportedLocales) {
           if (currentLocale != null) {
-            print(currentLocale.countryCode);
             for (Locale locale in supportedLocales) {
               if (currentLocale.languageCode == locale.languageCode) {
                 return currentLocale;
@@ -97,8 +96,7 @@ class _MyAppState extends State<MyApp> {
           primaryColor: CustomColors.primary,
           appBarTheme: AppBarTheme(
               textTheme: TextTheme(
-            title: GoogleFonts.almarai(),
-            body2: GoogleFonts.almarai(),
+
           )),
 
           textTheme: TextTheme(

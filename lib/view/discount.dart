@@ -60,7 +60,9 @@ class _DiscountScreenState extends State<DiscountScreen> {
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
-                        return emptyPage(context);
+                        return emptyPage(context, () {
+                          setState(() {});
+                        });
                         break;
                       case ConnectionState.waiting:
                       case ConnectionState.active:
@@ -68,7 +70,6 @@ class _DiscountScreenState extends State<DiscountScreen> {
                         break;
                       case ConnectionState.done:
                         if (snapshot.hasData) {
-                          print(snapshot.data);
                           return ListView.builder(
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
@@ -77,10 +78,14 @@ class _DiscountScreenState extends State<DiscountScreen> {
                             itemCount: snapshot.data.length,
                           );
                         } else
-                          return emptyPage(context);
+                          return emptyPage(context, () {
+                            setState(() {});
+                          });
                         break;
                     }
-                    return emptyPage(context);
+                    return emptyPage(context, () {
+                      setState(() {});
+                    });
                   }),
             ],
           ),
@@ -92,7 +97,6 @@ class _DiscountScreenState extends State<DiscountScreen> {
   Widget _drawFirstCardOfInfo(
     map,
   ) {
-    print(map["content"]);
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

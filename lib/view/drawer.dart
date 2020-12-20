@@ -63,9 +63,11 @@ Widget sameDrawer(BuildContext context) {
                               () {
                                 CommissionAPI commissionApi = CommissionAPI();
                                 commissionApi
-                                    .getCommissionValue( AppLocale.of(context).getTranslated("lang") == "En"
-                                    ? "ar"
-                                    : "en")
+                                    .getCommissionValue(AppLocale.of(context)
+                                                .getTranslated("lang") ==
+                                            "En"
+                                        ? "ar"
+                                        : "en")
                                     .then((value) {
                                   Navigator.pop(context);
                                   Navigator.push(

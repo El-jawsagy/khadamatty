@@ -57,7 +57,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
-                        return emptyPage(context);
+                        return emptyPage(context, () {
+                          setState(() {});
+                        });
                         break;
                       case ConnectionState.waiting:
                       case ConnectionState.active:
@@ -65,15 +67,18 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                         break;
                       case ConnectionState.done:
                         if (snapshot.hasData) {
-                          print(snapshot.data);
                           return Container(
                             child: _drawFirstCardOfInfo(snapshot.data),
                           );
                         } else
-                          return emptyPage(context);
+                          return emptyPage(context, () {
+                            setState(() {});
+                          });
                         break;
                     }
-                    return emptyPage(context);
+                    return emptyPage(context, () {
+                      setState(() {});
+                    });
                   }),
             ],
           ),

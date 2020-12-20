@@ -11,7 +11,6 @@ class AboutAndTermsOfUseAPI {
     var response = await http.get(
       url,
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       var map = data['data'];
@@ -25,7 +24,6 @@ class AboutAndTermsOfUseAPI {
     var response = await http.get(
       url,
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       return data['data'];
@@ -42,10 +40,7 @@ class AboutAndTermsOfUseAPI {
       'email': email,
       "title": "Contact us",
     };
-    print(body);
     var response = await http.post(url, body: body);
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       var map = data['data'];
@@ -59,10 +54,8 @@ class AboutAndTermsOfUseAPI {
     var response = await http.get(
       url,
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(response.body);
       return data['data'];
     }
     return null;

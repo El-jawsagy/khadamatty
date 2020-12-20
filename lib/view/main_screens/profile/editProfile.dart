@@ -311,7 +311,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           _editProfileScaffoldKey.currentState
                               .showSnackBar(snackBar);
                         }
-                        print("this is value of login $value");
+
                       });
                     } else {
                       final snackBar = SnackBar(

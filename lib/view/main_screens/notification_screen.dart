@@ -89,16 +89,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ));
                           break;
                         case ConnectionState.waiting:
-                          print("i'm here waiting");
                           return loading(context, 1);
 
                           break;
                         case ConnectionState.active:
                         case ConnectionState.done:
-                          print("i'm here done");
 
                           if (snapshot.hasData) {
-                            print(snapshot.data);
 
                             return snapshot.data.length > 0
                                 ? ListView.builder(

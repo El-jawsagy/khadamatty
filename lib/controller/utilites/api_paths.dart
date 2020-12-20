@@ -61,7 +61,7 @@ class ApiPaths {
   static String searchAdds(
     string,
   ) =>
-      mainDirection + "/searchlisting?&search=$string";
+      mainDirection + "/searchlisting?search=$string";
 
   static String addStoreComment = mainDirection + "/add-comment";
 }

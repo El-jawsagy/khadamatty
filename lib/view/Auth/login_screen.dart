@@ -232,7 +232,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           .then((value) async {
                         state.value = false;
 
-                        print("this is value of login $value");
                         switch (value) {
                           case "email wrong":
                             showDialogWidget("make sure of email ", context);
@@ -276,45 +275,34 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _drawForgetPass() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 16, top: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-//              Navigator.of(context).push(MaterialPageRoute(
-//                  builder: (context) => ForgetPassword(widget.lang)));
-            },
-            child: Text(
-              AppLocale.of(context).getTranslated("forget"),
-              style: TextStyle(
-                color: CustomColors.primary,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+//   Widget _drawForgetPass() {
+//     return Padding(
+//       padding: const EdgeInsets.only(right: 16, top: 8),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.end,
+//         children: <Widget>[
+//           InkWell(
+//             onTap: () {
+// //              Navigator.of(context).push(MaterialPageRoute(
+// //                  builder: (context) => ForgetPassword(widget.lang)));
+//             },
+//             child: Text(
+//               AppLocale.of(context).getTranslated("forget"),
+//               style: TextStyle(
+//                 color: CustomColors.primary,
+//                 fontWeight: FontWeight.w400,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
 
   Widget _drawSignUpButton() {
     return FlatButton(
       height: MediaQuery.of(context).size.height * .06,
       onPressed: () async {
-        final snackBar = SnackBar(
-            backgroundColor: CustomColors.primaryHover,
-            content: Text(
-              AppLocale.of(context).getTranslated("lang") == 'En'
-                  ? "يتم تحميل البلاد المتاحة برجاء الانتظار.."
-                  : "available countries are loaded, please wait ...",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: CustomColors.primary),
-            ));
-
-        _loginScaffoldKey.currentState.showSnackBar(snackBar);
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => RegisterScreen()));
       },

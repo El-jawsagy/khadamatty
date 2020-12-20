@@ -9,6 +9,7 @@ import 'package:khadamatty/view/drawer.dart';
 import 'package:khadamatty/view/main_screens/profile/profile_screen.dart';
 import 'package:khadamatty/view/product/add_new_product.dart';
 import 'package:khadamatty/view/product/search/search_product_screen.dart';
+import 'package:khadamatty/view/utilites/popular_widget.dart';
 import 'package:khadamatty/view/utilites/prefrences.dart';
 import 'package:khadamatty/view/utilites/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,9 +19,9 @@ import 'home_page_screen.dart';
 import 'notification_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  int pos;
+  int index;
 
-  MainScreen(this.pos);
+  MainScreen(this.index);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -36,7 +37,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    pos = ValueNotifier(widget.pos);
+    pos = ValueNotifier(widget.index);
     adsAPI = AdsAPI();
     _tabController =
         TabController(length: 3, vsync: this, initialIndex: pos.value);
@@ -45,6 +46,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    pos.value = widget.index;
+    _tabController.animateTo(pos.value);
+
     return Scaffold(
       key: mainPageScaffoldKey,
       backgroundColor: CustomColors.grayBack,
@@ -109,19 +113,15 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
       body: ValueListenableBuilder(
         valueListenable: pos,
         builder: (BuildContext context, value, Widget child) {
-          if (_tabController.indexIsChanging) {
-            pos.value = _tabController.index.floor();
-          }
-          print(_tabController.index);
-          return TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: _tabController,
-            children: [
-              HomePage(),
-              FavoriteScreen(),
-              ProfileScreen(),
-            ],
-          );
+          return (pos.value == 0)
+              ? HomePage()
+              : (pos.value == 1)
+                  ? FavoriteScreen()
+                  : (pos.value == 2)
+                      ? ProfileScreen()
+                      : emptyPage(context, () {
+            setState(() {});
+          });
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -226,5 +226,11 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 }

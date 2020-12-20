@@ -43,23 +43,47 @@ showWaiting(BuildContext contxt) {
   );
 }
 
-Widget emptyPage(
-  BuildContext context,
-) {
+Widget emptyPage(BuildContext context, function) {
+  Size size = MediaQuery.of(context).size;
+
   return Container(
     child: Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Center(
-          child: Text(
-            "Page is Empty",
-            style: TextStyle(
-                color: CustomColors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold),
+        Container(
+          child: Image.asset(
+            "assets/images/empty.png",
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.3,
           ),
         ),
+        SizedBox(height: size.height * 0.05),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              AppLocale.of(context).getTranslated("error_found"),
+              style: TextStyle(
+                  color: CustomColors.dark,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FloatingActionButton(
+            heroTag: "btn1",
+            onPressed: function,
+            child: Icon(
+              Icons.refresh,
+              color: CustomColors.primary,
+            ),
+            backgroundColor: CustomColors.primaryHover,
+          ),
+        )
       ],
     ),
   );

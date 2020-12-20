@@ -48,250 +48,276 @@ class _ProfileState extends State<ProfileScreen> {
               return FutureBuilder(
                   future: authentication.getUser(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                          return Center(
-                              child: Text(
-                            AppLocale.of(context).getTranslated("lang") == 'En'
-                                ? "لم تختار أي عنصر حتى الآن"
-                                : "You haven't taken any item yet",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                            ),
-                          ));
-                          break;
-                        case ConnectionState.waiting:
-                          print("i'm here waiting");
-                          return loading(context, 1);
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        return Center(
+                            child: Text(
+                          AppLocale.of(context).getTranslated("lang") == 'En'
+                              ? "لم تختار أي عنصر حتى الآن"
+                              : "You haven't taken any item yet",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ));
+                        break;
+                      case ConnectionState.waiting:
+                        return loading(context, 1);
 
-                          break;
-                        case ConnectionState.active:
-                        case ConnectionState.done:
-                          print("i'm here done");
+                        break;
+                      case ConnectionState.active:
+                      case ConnectionState.done:
 
-                          if (snapshot.hasData) {
-                            print(snapshot.data);
+                        if (snapshot.hasData) {
 
-                            return SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: size.height * 0.17,
-                                    width: size.width,
-                                    child: Stack(
-                                      children: [
-                                        CustomPaint(
-                                          painter: AppLocale.of(context)
-                                                      .getTranslated("lang") ==
-                                                  "En"
-                                              ? BackGround()
-                                              : BackGroundEn(),
-                                          child: Container(
-                                            height: size.height,
-                                            width: size.width,
-                                          ),
-                                        ),
-                                        Column(
-                                          children: [
-                                            SizedBox(
-                                              height: size.height * 0.025,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    IconButton(
-                                                        icon: FaIcon(
-                                                          FontAwesomeIcons.cog,
-                                                          color: CustomColors
-                                                              .white,
-                                                        ),
-                                                        onPressed: () async {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) => EditProfileScreen(
-                                                                      snapshot
-                                                                          .data,
-                                                                      AppLocale.of(
-                                                                              context)
-                                                                          .getTranslated(
-                                                                              "lang"))));
-                                                        })
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Text(
-                                                          snapshot
-                                                              .data["username"],
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                            color: CustomColors
-                                                                .white,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: size.height *
-                                                              0.008,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              AppLocale.of(context)
-                                                                          .getTranslated(
-                                                                              "lang") ==
-                                                                      "En"
-                                                                  ? "تاريخ الانضمام :"
-                                                                  : "The date of join :",
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color:
-                                                                    CustomColors
-                                                                        .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width:
-                                                                  size.width *
-                                                                      0.01,
-                                                            ),
-                                                            Text(
-                                                              snapshot.data[
-                                                                  "created_at"],
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color:
-                                                                    CustomColors
-                                                                        .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      width: size.width * 0.01,
-                                                    ),
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors
-                                                              .transparent),
-                                                      child: ClipOval(
-                                                        child: (snapshot.data[
-                                                                        "image"] ==
-                                                                    null ||
-                                                                snapshot.data[
-                                                                        "image"] ==
-                                                                    '')
-                                                            ? Image.asset(
-                                                                'assets/images/person.png',
-                                                                width:
-                                                                    size.width *
-                                                                        .3,
-                                                                height:
-                                                                    size.height *
-                                                                        .1,
-                                                              )
-                                                            : Image(
-                                                                loadingBuilder:
-                                                                    (context,
-                                                                        image,
-                                                                        ImageChunkEvent
-                                                                            loadingProgress) {
-                                                                  if (loadingProgress ==
-                                                                      null) {
-                                                                    return image;
-                                                                  }
-                                                                  return Center(
-                                                                    child:
-                                                                        CircularProgressIndicator(),
-                                                                  );
-                                                                },
-                                                                image: NetworkImage(
-                                                                    snapshot.data[
-                                                                        "image"],
-                                                                    scale: 1.0),
-                                                                width:
-                                                                    size.width *
-                                                                        .3,
-                                                                height:
-                                                                    size.height *
-                                                                        .1,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: size.height * 0.17,
+                                  width: size.width,
+                                  child: Stack(
                                     children: [
-                                      Text(
-                                        AppLocale.of(context)
+                                      CustomPaint(
+                                        painter: AppLocale.of(context)
                                                     .getTranslated("lang") ==
                                                 "En"
-                                            ? "الأعلانات المضافه"
-                                            : "Added ads",
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          color: CustomColors.primary,
-                                          fontWeight: FontWeight.bold,
+                                            ? BackGround()
+                                            : BackGroundEn(),
+                                        child: Container(
+                                          height: size.height,
+                                          width: size.width,
                                         ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: size.height * 0.025,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  IconButton(
+                                                      icon: FaIcon(
+                                                        FontAwesomeIcons.cog,
+                                                        color:
+                                                            CustomColors.white,
+                                                      ),
+                                                      onPressed: () async {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => EditProfileScreen(
+                                                                    snapshot
+                                                                        .data,
+                                                                    AppLocale.of(
+                                                                            context)
+                                                                        .getTranslated(
+                                                                            "lang"))));
+                                                      })
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        snapshot
+                                                            .data["username"],
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: CustomColors
+                                                              .white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            size.height * 0.008,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            AppLocale.of(context)
+                                                                        .getTranslated(
+                                                                            "lang") ==
+                                                                    "En"
+                                                                ? "تاريخ الانضمام :"
+                                                                : "The date of join :",
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  CustomColors
+                                                                      .white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: size.width *
+                                                                0.01,
+                                                          ),
+                                                          Text(
+                                                            snapshot.data[
+                                                                "created_at"],
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  CustomColors
+                                                                      .white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    width: size.width * 0.01,
+                                                  ),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color:
+                                                            Colors.transparent),
+                                                    child: ClipOval(
+                                                      child: (snapshot.data[
+                                                                      "image"] ==
+                                                                  null ||
+                                                              snapshot.data[
+                                                                      "image"] ==
+                                                                  '')
+                                                          ? Image.asset(
+                                                              'assets/images/person.png',
+                                                              width:
+                                                                  size.width *
+                                                                      .3,
+                                                              height:
+                                                                  size.height *
+                                                                      .1,
+                                                            )
+                                                          : Image(
+                                                              loadingBuilder: (context,
+                                                                  image,
+                                                                  ImageChunkEvent
+                                                                      loadingProgress) {
+                                                                if (loadingProgress ==
+                                                                    null) {
+                                                                  return image;
+                                                                }
+                                                                return Center(
+                                                                  child:
+                                                                      CircularProgressIndicator(),
+                                                                );
+                                                              },
+                                                              image: NetworkImage(
+                                                                  snapshot.data[
+                                                                      "image"],
+                                                                  scale: 1.0),
+                                                              width:
+                                                                  size.width *
+                                                                      .3,
+                                                              height:
+                                                                  size.height *
+                                                                      .1,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                  ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, pos) {
-                                      return getExpanded(
-                                          size, snapshot.data['listings'][pos]);
-                                    },
-                                    itemCount: snapshot.data['listings'].length,
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                          return Center(
-                              child: Text(
-                            AppLocale.of(context).getTranslated("lang") == 'En'
-                                ? "لم تختار أي عنصر حتى الآن"
-                                : "You haven't taken any item yet",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      AppLocale.of(context)
+                                                  .getTranslated("lang") ==
+                                              "En"
+                                          ? "الأعلانات المضافه"
+                                          : "Added ads",
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        color: CustomColors.primary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                snapshot.data['listings'].length > 0
+                                    ? ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, pos) {
+                                          return getExpanded(size,
+                                              snapshot.data['listings'][pos]);
+                                        },
+                                        itemCount:
+                                            snapshot.data['listings'].length,
+                                      )
+                                    : Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.15,
+                                          ),
+                                          Text(
+                                            AppLocale.of(context).getTranslated(
+                                                        "lang") ==
+                                                    "En"
+                                                ? "لا يوجد اعلانات مضافة فى الوقت الحالي"
+                                                : "There are no ads added at the moment.",
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              color: CustomColors.dark,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ],
                             ),
-                          ));
-                          break;
-                      }
+                          );
+                        } else {
+                          if (!snapshot.hasData) {
+                            return emptyPage(context, () {
+                              setState(() {});
+                            });
+                          } else {
+                            return Center(
+                                child: Text(
+                              AppLocale.of(context).getTranslated("lang") ==
+                                      'En'
+                                  ? "لم تختار أي عنصر حتى الآن"
+                                  : "You haven't taken any item yet",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  color: CustomColors.dark),
+                            ));
+                          }
+                        }
+
+                        break;
                     }
                     return loading(context, 1);
                   });
@@ -600,7 +626,6 @@ class _ProfileState extends State<ProfileScreen> {
                                   _scaffoldkey.currentState
                                       .showSnackBar(snackBar);
                                   await adsAPI.getInfo().then((value) {
-                                    print(value);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

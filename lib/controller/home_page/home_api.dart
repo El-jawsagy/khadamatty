@@ -52,7 +52,6 @@ class MarketAndCategoryApi {
     var response = await http.get(
       url,
     );
-    print(response.body);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       return data['data'];
@@ -67,7 +66,6 @@ class MarketAndCategoryApi {
     var response = await http.get(
       url,
     );
-    print(response.body);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);

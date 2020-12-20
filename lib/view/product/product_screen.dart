@@ -111,7 +111,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           .removeFavoriteFromProduct(
                               widget.singleAnnouncement["id"])
                           .then((value) {
-                        print(value);
                         final snackBar = SnackBar(
                           backgroundColor: CustomColors.primaryHover,
                           content: Text(
@@ -578,7 +577,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       posOfProducts.value = val.floorToDouble();
                     },
                     itemBuilder: (BuildContext context, int index) {
-                      print(widget.singleAnnouncement["images"].length);
                       return Container(
                         child: widget.singleAnnouncement["images"].length >= 1
                             ? (imagePath[index] == null)

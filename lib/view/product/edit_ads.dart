@@ -131,7 +131,6 @@ class _EditAddAnnouncementScreenState extends State<EditAddAnnouncementScreen> {
         editCategories.add(i["name_en"]);
       }
     }
-    print(editCategories);
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -288,19 +287,15 @@ class _EditAddAnnouncementScreenState extends State<EditAddAnnouncementScreen> {
                                   active: true,
                                   activeColor: CustomColors.primary,
                                   onPressed: (value) {
-                                    print(value);
                                     if (value.active) {
                                       tempTags.add(value.title);
                                     } else {
-                                      print(tempTags);
                                       tempTags.remove(value.title);
                                     }
-                                    print(index);
                                   },
                                   removeButton: ItemTagsRemoveButton(
                                     onRemoved: () {
                                       setState(() {
-                                        print(index);
                                         _adsNameEditingText.text =
                                             _adsNameEditingText.text;
                                         _shortDescriptionEditingText.text =
@@ -313,7 +308,6 @@ class _EditAddAnnouncementScreenState extends State<EditAddAnnouncementScreen> {
                                             _countryEditingText.text;
                                         pos = pos;
 
-                                        print(_tags.value[index]);
                                         _tags.value.removeAt(index);
                                       });
 
@@ -538,7 +532,6 @@ class _EditAddAnnouncementScreenState extends State<EditAddAnnouncementScreen> {
   }
 
   Widget _drawChooseCountry() {
-    print(editCategories);
     return ValueListenableBuilder(
       valueListenable: editCategory,
       builder: (BuildContext context, value, Widget child) {
@@ -568,7 +561,6 @@ class _EditAddAnnouncementScreenState extends State<EditAddAnnouncementScreen> {
                 } else {
                   editSubCategory.value = "All SubCategories";
                 }
-                print(pos.value);
               },
               items:
                   editCategories.map<DropdownMenuItem<String>>((String value) {
@@ -588,7 +580,6 @@ class _EditAddAnnouncementScreenState extends State<EditAddAnnouncementScreen> {
   }
 
   Widget _drawSubCategory() {
-    print(editSubCategories);
 
     return ValueListenableBuilder(
       valueListenable: pos,
@@ -716,7 +707,6 @@ class _EditAddAnnouncementScreenState extends State<EditAddAnnouncementScreen> {
                               subCatId.value = i["id"];
                             }
                           }
-                          print(oldImages);
                           adsAPI.UpdateAnnouncement(
                             widget.ads["id"],
                             catId.value,

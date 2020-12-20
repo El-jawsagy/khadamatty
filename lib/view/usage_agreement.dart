@@ -59,7 +59,9 @@ class _UsageAgreementScreenState extends State<UsageAgreementScreen> {
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
-                        return emptyPage(context);
+                        return emptyPage(context, () {
+                          setState(() {});
+                        });
                         break;
                       case ConnectionState.waiting:
                       case ConnectionState.active:
@@ -67,7 +69,6 @@ class _UsageAgreementScreenState extends State<UsageAgreementScreen> {
                         break;
                       case ConnectionState.done:
                         if (snapshot.hasData) {
-                          print(snapshot.data);
                           return ListView.builder(
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
@@ -76,10 +77,14 @@ class _UsageAgreementScreenState extends State<UsageAgreementScreen> {
                             itemCount: snapshot.data.length,
                           );
                         } else
-                          return emptyPage(context);
+                          return emptyPage(context, () {
+                            setState(() {});
+                          });
                         break;
                     }
-                    return emptyPage(context);
+                    return emptyPage(context, () {
+                      setState(() {});
+                    });
                   }),
             ],
           ),
@@ -89,9 +94,8 @@ class _UsageAgreementScreenState extends State<UsageAgreementScreen> {
   }
 
   Widget _drawFirstCardOfInfo(
-      map,
-      ) {
-    print(map["content"]);
+    map,
+  ) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

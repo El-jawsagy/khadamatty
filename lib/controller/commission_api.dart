@@ -14,7 +14,6 @@ class CommissionAPI {
     var response = await http.get(
       url,
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       return data['data'];
@@ -27,7 +26,6 @@ class CommissionAPI {
     var response = await http.get(
       url,
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       return data['data'][0]["title"];
@@ -82,13 +80,11 @@ class CommissionAPI {
         'notes': notes,
       });
     }
-    print(formData.files);
-    print(formData.fields);
+
 
     var response =
         await Dio().post(url, data: formData, options: Options(headers: auth));
-    print(response.data);
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       var data = response.data;
       var map = data['data'];

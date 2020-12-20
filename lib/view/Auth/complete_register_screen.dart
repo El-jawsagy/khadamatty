@@ -344,7 +344,6 @@ class _CompleteRegisterScreenState extends State<CompleteRegisterScreen> {
                           .then((value) async {
                         state.value = false;
 
-                        print("this is value of login $value");
                         switch (value) {
                           case "name exist":
                             showDialogWidget(

@@ -57,6 +57,7 @@
   "ads_name": "Ad Name",
   "notes": "Notes",
   "image_transfer": "Image Of Transfer receipt",
+  "error_found": "There is a problem displaying the data, please check the internet connection and try again.",
   "lang": "Ar",
   "end": ""
 }
