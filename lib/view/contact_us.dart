@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:khadamatty/controller/about_contact_api.dart';
 import 'package:khadamatty/controller/lang/applocate.dart';
-import 'package:khadamatty/view/Auth/register_screen.dart';
 import 'package:khadamatty/view/utilites/popular_widget.dart';
-import 'package:khadamatty/view/utilites/prefrences.dart';
 import 'package:khadamatty/view/utilites/theme.dart';
 
 import 'main_screens/main_screen.dart';

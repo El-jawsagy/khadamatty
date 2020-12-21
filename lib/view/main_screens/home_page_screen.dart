@@ -158,9 +158,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  List<Tab> subCategoryTabs(List ListTabs) {
+  List<Tab> subCategoryTabs(List listTabs) {
     List<Tab> tabs = [];
-    for (var i in ListTabs) {
+    for (var i in listTabs) {
       tabs.add(Tab(
         text: AppLocale.of(context).getTranslated("lang") == "En"
             ? i['name']

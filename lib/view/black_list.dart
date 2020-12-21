@@ -94,8 +94,8 @@ class _BlackListScreenState extends State<BlackListScreen> {
   }
 
   Widget _drawFirstCardOfInfo(
-      map,
-      ) {
+    map,
+  ) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -143,8 +143,10 @@ class _BlackListScreenState extends State<BlackListScreen> {
     );
   }
 
-  Future<bool> _onBackPressed() {
+  Future<void> _onBackPressed() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => MainScreen(0)));
+    return null;
+
   }
 }

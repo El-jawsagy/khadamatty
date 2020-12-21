@@ -17,16 +17,16 @@ Future<void> main() async {
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
   runApp(
-    Phoenix(child: lang()),
+    Phoenix(child: Lang()),
   );
 }
 
-class lang extends StatefulWidget {
+class Lang extends StatefulWidget {
   @override
-  _langState createState() => _langState();
+  _LangState createState() => _LangState();
 }
 
-class _langState extends State<lang> {
+class _LangState extends State<Lang> {
   Future chooseLang() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

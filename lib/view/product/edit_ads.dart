@@ -30,9 +30,9 @@ ValueNotifier<String> featuredImage;
 final picker = ImagePicker();
 
 class EditAddAnnouncementScreen extends StatefulWidget {
-  Map ads;
-  Map allOption;
-  String lang;
+  final Map ads;
+  final Map allOption;
+  final String lang;
 
   EditAddAnnouncementScreen(this.ads, this.allOption, this.lang);
 
@@ -707,7 +707,7 @@ class _EditAddAnnouncementScreenState extends State<EditAddAnnouncementScreen> {
                               subCatId.value = i["id"];
                             }
                           }
-                          adsAPI.UpdateAnnouncement(
+                          adsAPI.updateAnnouncement(
                             widget.ads["id"],
                             catId.value,
                             subCatId.value,
@@ -829,8 +829,8 @@ class _EditAddAnnouncementScreenState extends State<EditAddAnnouncementScreen> {
 }
 
 class FeatureImageTaker extends StatefulWidget {
-  ValueNotifier<File> image;
-  String networkImage;
+  final ValueNotifier<File> image;
+  final String networkImage;
 
   FeatureImageTaker(this.image, {this.networkImage});
 

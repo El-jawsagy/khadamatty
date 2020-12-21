@@ -130,8 +130,10 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     );
   }
 
-  Future<bool> _onBackPressed() {
+  Future<void> _onBackPressed() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => MainScreen(0)));
+    return null;
+
   }
 }

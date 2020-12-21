@@ -22,7 +22,7 @@ class AdsAPI {
     }
   }
 
-  Future<String> UploadAnnouncement(
+  Future<String> uploadAnnouncement(
     name,
     shortDescription,
     country,
@@ -107,7 +107,7 @@ class AdsAPI {
     }
   }
 
-  Future<String> UpdateAnnouncement(
+  Future<String> updateAnnouncement(
     id,
     categoryId,
     subCategoryId,
@@ -215,6 +215,7 @@ class AdsAPI {
     if (response.statusCode == 200) {
       return data['data'];
     }
+
   }
 
   Future<List> searchListing(query) async {

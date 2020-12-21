@@ -10,7 +10,7 @@ import 'package:khadamatty/view/utilites/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseCommissionWayScreen extends StatefulWidget {
-  String title;
+ final String title;
 
   ChooseCommissionWayScreen(this.title);
 
@@ -351,8 +351,10 @@ class _ChooseCommissionWayScreenState extends State<ChooseCommissionWayScreen> {
     );
   }
 
-  Future<bool> _onBackPressed() {
+  Future<void> _onBackPressed() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => MainScreen(0)));
+    return null;
+
   }
 }

@@ -19,8 +19,8 @@ ValueNotifier<File> _imageFour = ValueNotifier(null);
 ValueNotifier<File> _imageFive = ValueNotifier(null);
 
 class AddAnnouncementScreen extends StatefulWidget {
-  Map data;
-  String lang;
+  final Map data;
+  final String lang;
 
   AddAnnouncementScreen(this.data, this.lang);
 
@@ -654,7 +654,7 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                               subCatId.value = i["id"];
                             }
                           }
-                          adsAPI.UploadAnnouncement(
+                          adsAPI.uploadAnnouncement(
                             _adsNameEditingText.text,
                             _shortDescriptionEditingText.text,
                             _countryEditingText.text,

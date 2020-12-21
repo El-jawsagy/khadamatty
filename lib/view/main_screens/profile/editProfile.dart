@@ -11,8 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 ValueNotifier<File> _image = ValueNotifier(null);
 
 class EditProfileScreen extends StatefulWidget {
-  Map userData;
-  String lang;
+  final Map userData;
+  final String lang;
 
   EditProfileScreen(this.userData, this.lang);
 
@@ -352,8 +352,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 }
 
 class FeatureImageTaker extends StatefulWidget {
-  ValueNotifier<File> image;
-  String networkImage;
+  final ValueNotifier<File> image;
+  final String networkImage;
 
   FeatureImageTaker(this.image, {this.networkImage});
 

@@ -11,7 +11,6 @@ import 'package:khadamatty/view/utilites/theme.dart';
 import '../Auth/login_screen.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  String token;
 
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();

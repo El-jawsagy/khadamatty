@@ -19,7 +19,7 @@ import 'home_page_screen.dart';
 import 'notification_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  int index;
+  final int index;
 
   MainScreen(this.index);
 

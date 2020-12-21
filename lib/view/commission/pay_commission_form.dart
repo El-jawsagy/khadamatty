@@ -15,8 +15,8 @@ ValueNotifier<File> _image = ValueNotifier(null);
 final picker = ImagePicker();
 
 class PayCommissionFormScreen extends StatefulWidget {
-  String lang;
-  List banks;
+ final String lang;
+  final List banks;
 
   PayCommissionFormScreen(this.lang, this.banks);
 
@@ -44,7 +44,7 @@ class _PayCommissionFormScreenState extends State<PayCommissionFormScreen> {
       new GlobalKey<ScaffoldState>();
   CommissionAPI commissionAPI;
 
-  String dateTime, _setDate;
+  String dateTime;
   DateTime selectedDate;
 
   TextEditingController _dateController;
@@ -425,9 +425,6 @@ class _PayCommissionFormScreenState extends State<PayCommissionFormScreen> {
           enabled: false,
           keyboardType: TextInputType.text,
           controller: _dateController,
-          onSaved: (String val) {
-            _setDate = val;
-          },
           decoration: InputDecoration(
               disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
               contentPadding: EdgeInsets.only(top: 0.0)),
@@ -649,7 +646,7 @@ class _PayCommissionFormScreenState extends State<PayCommissionFormScreen> {
 }
 
 class TransformImageTaker extends StatefulWidget {
-  ValueNotifier<File> image;
+  final ValueNotifier<File> image;
 
   TransformImageTaker(this.image);
 
